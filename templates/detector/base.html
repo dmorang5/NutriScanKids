@@ -23,7 +23,7 @@
                     <h3>Hola, {{ user.first_name|default:user.username }}</h3>
                 </div>
                 <div class="logout">
-                    <a>Cerrar sesion</a>
+                    <a href="{% url 'logout' %}" class="logout-button">Cerrar sesion</a>
                 </div>
             </div>
         </div>

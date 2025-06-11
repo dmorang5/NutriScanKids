@@ -9,24 +9,171 @@
         {% for item in historial %}
         <li class="history-item">
             <div class="history-info">
-                <div class="history-date">{{ item.fecha|date:"j \\d\\e F, Y" }}</div>
+                {% if item.fecha_analisis %}
+                    <div class="history-date">
+                        {{ item.fecha_analisis|date:"j \\d\\e F, Y \\a \\l\\a\\s H:i" }}
+                    </div>
+                {% else %}
+                    <div class="history-date">
+                        {{ item.fecha|date:"j \\d\\e F, Y" }}
+                    </div>
+                {% endif %}
                 <div class="history-status" style="background-color: {{ item.color }}; color: {{ item.texto_color }};">
                     {{ item.riesgo }}
                 </div>
             </div>
-            <button class="view-btn">Ver detalles</button>
-            <button class="view-btn" data-analisis-id="{{ item.id }}">Ver detalles</button>
+            <!-- <button class="view-btn">Ver detalles</button> -->
+<!--             <button class="view-btn" data-analisis-id="{{ item.id }}">Ver detalles</button>
+ -->            <button class="view-btn"
+                data-id="{{ item.id }}"
+                data-fecha="{{ item.fecha|date:'j \\d\\e F, Y' }}"
+                data-riesgo="{{ item.riesgo }}"
+                data-observaciones="{{ item.observaciones }}"
+                data-imagen="{{ item.imagen.url }}"
+                data-recomendaciones="{{ item.recomendaciones}}">
+                Ver detalles
+            </button>
+
         </li>
         {% endfor %}
     </ul>
 </div>
 
-<div id="modal-container">
+<div id="historyModal" class="modal">
     {% include 'includes/modal_detalle.html' %}
 </div>
-
-
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".view-btn");
+    const modal = document.getElementById("historyModal");
+    const modalFecha = document.getElementById("modal-fecha");
+    const modalRiesgo = document.getElementById("modal-riesgo");
+    const modalObservaciones = document.getElementById("modal-observaciones");
+    const modalImagen = document.getElementById("modal-imagen");
+    const modalRecomendaciones = document.getElementById("modal-recomendaciones");
+    const closeBtn = document.getElementById("modal-close");
+    const tabs = document.querySelectorAll(".tab");
+    const tabPanes = document.querySelectorAll(".tab-pane");
+
+    // Funcionalidad de los botones "Ver detalles"
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const fecha = this.dataset.fecha;
+            const riesgo = this.dataset.riesgo;
+            const observaciones = this.dataset.observaciones;
+            const imagen = this.dataset.imagen;
+            const recomendaciones = this.dataset.recomendaciones;
+
+            // Actualizar contenido del modal
+            modalFecha.textContent = fecha;
+            modalRiesgo.textContent = riesgo;
+            modalObservaciones.textContent = observaciones;
+            modalImagen.src = imagen;
+
+            // Actualizar clase del status según el riesgo
+            modalRiesgo.className = 'result-status';
+            if (riesgo.includes('Moderado')) {
+                modalRiesgo.classList.add('status-risk');
+            } else if (riesgo.includes('Alto')) {
+                modalRiesgo.classList.add('status-alert');
+            } else {
+                modalRiesgo.classList.add('status-normal');
+            }
+
+            // Actualizar recomendaciones
+            if (recomendaciones) {
+                const recomendacionesArray = recomendaciones.split('\n').filter(r => r.trim());
+                modalRecomendaciones.innerHTML = '';
+                recomendacionesArray.forEach(recomendacion => {
+                    const li = document.createElement('li');
+                    li.textContent = recomendacion.trim();
+                    modalRecomendaciones.appendChild(li);
+                });
+            }
+
+            // Mostrar modal
+            modal.style.display = "block";
+            
+            // Asegurar que el primer tab esté activo
+            tabs.forEach(t => t.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            document.querySelector('.tab[data-tab="resultados"]').classList.add('active');
+            document.getElementById('tab-resultados').classList.add('active');
+        });
+    });
+
+    // Funcionalidad de tabs
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and panes
+            tabs.forEach(t => t.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding pane
+            this.classList.add('active');
+            document.getElementById('tab-' + targetTab).classList.add('active');
+        });
+    });
+
+    // Cerrar modal
+    closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Cerrar si se hace clic fuera del modal
+    window.addEventListener("click", function (e) {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+</Script>
+
+<!-- <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".view-btn");
+    const modal = document.getElementById("historyModal");
+    const modalFecha = document.getElementById("modal-fecha");
+    const modalRiesgo = document.getElementById("modal-riesgo");
+    const modalObservaciones = document.getElementById("modal-observaciones");
+    const modalImagen = document.getElementById("modal-imagen");
+    const closeBtn = document.getElementById("modal-close");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const fecha = this.dataset.fecha;
+            const riesgo = this.dataset.riesgo;
+            const observaciones = this.dataset.observaciones;
+            const imagen = this.dataset.imagen;
+
+            modalFecha.textContent = fecha;
+            modalRiesgo.textContent = riesgo;
+            modalObservaciones.textContent = observaciones;
+            modalImagen.src = imagen;
+
+            modal.style.display = "block";
+        });
+    });
+
+    closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Cerrar si se hace clic fuera del modal
+    window.addEventListener("click", function (e) {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+
+</script>
+ -->
+<!-- <script>
     const historyModal = document.getElementById('historyModal');
 
     // Eventos para mostrar modales
@@ -70,5 +217,5 @@
                 tabPanes[index].classList.add('active');
             });
         });
-</script>
+</script> -->
 {% endblock %}

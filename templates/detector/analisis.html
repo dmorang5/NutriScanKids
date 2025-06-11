@@ -5,8 +5,11 @@
     <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
 {% endblock %}
 {% block content %}
-<h2 class="section-title">Análisis Nutricional</h2>
-
+<!-- <h2 class="section-title">Análisis Nutricional</h2> -->
+<div class="section-header">
+    <h2 class="section-title">Análisis Nutricional</h2>
+    <a href="" class="add-resource-btn">Análisis nutricional múltiple</a>
+</div>
 <div class="upload-section">
     <div class="upload-icon">
         <i class="fas fa-camera"></i>
@@ -28,7 +31,10 @@
     <div class="result-content">
         <div class="result-image">
             {% if analisis.imagen %} 
-                <img src="{{ analisis.imagen.url }}" alt="Imagen analizada"  style="max-width: 400px;">                
+                <img src="{{ analisis.imagen.url }}" alt="Imagen analizada"  style="max-width: 400px;">  
+                <!--Muestra la imagen con las anotaciones-->
+                <!-- <img src="{{ MEDIA_URL }}resultados/resultado_{{ analisis.id }}.jpg"> -->
+              
             {% else %}
                 <p>No se ha subido ninguna imagen.</p>
             {% endif %}
@@ -69,14 +75,22 @@
                 {% else %}
                 <h4>Recomendaciones:</h4>
                 <ul>
-                    {% if analisis.recomendaciones_lista %}
+                    {% if analisis.estado == 'normal' %}
+                        <li>No hay recomendaciones</li>
+                    {% elif analisis.recomendaciones_lista %}
+                        {% for recomendacion in analisis.recomendaciones_lista %}
+                            <li>{{ recomendacion }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No hay recomendaciones disponibles.</li>
+                    {% endif %}
+                    <!-- {% if analisis.recomendaciones_lista %}
                         <ul>
                             {% for recomendacion in analisis.recomendaciones_lista %}
                                 <li>{{ recomendacion }}</li>
                             {% endfor %}
                         </ul>
-                    {% endif %}
-
+                    {% endif %} -->
                 </ul>
                 {% endif %}
             </div>

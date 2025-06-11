@@ -6,52 +6,39 @@
 {% endblock %}
 {% block content %}
 <div id="education-section" class="education-section">
-    <h2 class="section-title">Recursos Educativos</h2>
-    
+    <!-- <h2 class="section-title">Recursos Educativos</h2> -->
+    <div class="section-header">
+        <h2 class="section-title">Recursos Educativos</h2>
+        {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'crear_recurso' %}" class="add-resource-btn">Añadir recurso</a>
+        {% endif %}
+    </div>
+
     <div class="resource-grid">
+        {% for recurso in recursos %}
         <div class="resource-card">
             <div class="resource-img">
-                <i class="fas fa-utensils"></i>
+                {% if recurso.categoria == 'alimentacion' %}
+                    <i class="fas fa-utensils"></i>
+                {% elif recurso.categoria == 'monitoreo' %}
+                    <i class="fas fa-chart-line"></i>
+                {% elif recurso.categoria == 'recetas' %}
+                    <i class="fas fa-apple-alt"></i>
+                {% elif recurso.categoria == 'signos' %}
+                    <i class="fas fa-exclamation-triangle"></i>
+                {% else %}
+                    <i class="fas fa-book"></i>
+                {% endif %}
             </div>
             <div class="resource-content">
-                <h3 class="resource-title">Alimentación Saludable</h3>
-                <p class="resource-desc">Guía completa sobre alimentación equilibrada para niños de 2 a 5 años.</p>
-                <a href="#" class="resource-link">Ver recurso</a>
+                <h3 class="resource-title">{{ recurso.titulo }}</h3>
+                <p class="resource-desc">{{ recurso.descripcion|truncatewords:20 }}{% if recurso.descripcion|wordcount > 20 %} (...) {% endif %}</p>
+                <a href="{{ recurso.archivo.url }}" target="_blank" class="resource-link">Ver recurso</a>
             </div>
         </div>
-        
-        <div class="resource-card">
-            <div class="resource-img">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="resource-content">
-                <h3 class="resource-title">Monitoreo del Crecimiento</h3>
-                <p class="resource-desc">Cómo interpretar las curvas de crecimiento y detectar alertas tempranas.</p>
-                <a href="#" class="resource-link">Ver recurso</a>
-            </div>
-        </div>
-        
-        <div class="resource-card">
-            <div class="resource-img">
-                <i class="fas fa-apple-alt"></i>
-            </div>
-            <div class="resource-content">
-                <h3 class="resource-title">Recetas Nutritivas</h3>
-                <p class="resource-desc">Colección de recetas fáciles y nutritivas para mejorar la alimentación infantil.</p>
-                <a href="#" class="resource-link">Ver recurso</a>
-            </div>
-        </div>
-        
-        <div class="resource-card">
-            <div class="resource-img">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="resource-content">
-                <h3 class="resource-title">Signos de Alerta</h3>
-                <p class="resource-desc">Cómo identificar signos de desnutrición y cuándo consultar a un profesional.</p>
-                <a href="#" class="resource-link">Ver recurso</a>
-            </div>
-        </div>
+        {% empty %}
+        <p>No hay recursos educativos disponibles en este momento.</p>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

@@ -40,23 +40,23 @@
                 </div>
             </div>
             <div class="recommendations">
-                {% if analisis.estado == 'normal' %}
                 <h4>Recomendaciones:</h4>
-                <ul>
-                    <li>No hay recomendaciones</li>
-                </ul>
+                {% if item.estado == 'normal' %}
+                    <ul>
+                        <li>Mantener los hábitos alimenticios actuales</li>
+                        <li>Continuar con controles periódicos</li>
+                    </ul>
                 {% else %}
-                <h4>Recomendaciones:</h4>
-                <ul>
-                    <li>Consultar con un pediatra o nutricionista infantil lo antes posible</li>
-                    <li>Aumentar la ingesta de proteínas de alta calidad en la dieta diaria</li>
-                    <li>Incluir alimentos ricos en hierro y zinc</li>
-                    <li>Realizar un seguimiento del peso semanalmente</li>
-                    <li>{{ analisis.recomendaciones }}</li>
-                </ul>
+                    {% if item.recomendaciones %}
+                        <ul>
+                            {% for rec in item.recomendaciones %}
+                                <li>{{ rec }}</li>
+                            {% endfor %}
+                        </ul>
+                        
                 {% endif %}
             </div>
-            <div>
+
             <h5>Datos Técnicos</h5>
                 <ul>
                     <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }}</li>

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import AnalisisNutricional
+from .models import AnalisisNutricional, RecursoEducativo, HistorialMedico
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=
@@ -37,3 +37,8 @@ class HistorialForm(forms.ModelForm):
     class Meta:
         model = HistorialMedico
         fields = ['notas', 'fecha_seguimiento']
+
+class RecursoEducativoForm(forms.ModelForm):
+    class Meta:
+        model = RecursoEducativo
+        fields = ['titulo', 'categoria', 'descripcion', 'archivo']

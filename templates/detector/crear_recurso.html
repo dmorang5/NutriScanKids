@@ -1,0 +1,37 @@
+{% extends 'detector/base.html' %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+{% endblock %}
+{% block content %}
+<h2 class="section-title">Crear Recurso Educativo</h2>
+<div class="form-container">
+    <form method="POST" enctype="multipart/form-data" class="recurso-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_titulo">Título</label>
+            {{ form.titulo }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_categoria">Categoría</label>
+            {{ form.categoria }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_descripcion">Descripción</label>
+            {{ form.descripcion }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_archivo">Archivo</label>
+            {{ form.archivo }}
+        </div>
+
+        <button type="submit" class="submit-button">Guardar</button>
+    </form>
+</div>
+{% endblock %}
