@@ -19,5 +19,3 @@ urlpatterns = [
     path('recursos/', views.recursos_educativos, name='recursos'),
     path('recursos/crear/', views.crear_recurso, name='crear_recurso'),
 ]
-
-    #path('historial/', views.historial, name='historial'),

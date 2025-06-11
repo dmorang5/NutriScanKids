@@ -11,6 +11,7 @@
     {% block css %}{% endblock %}
 </head>
 <body>
+    {% if user.is_authenticated %}
     <header>
         <div class="container">
             <div class="header-content">
@@ -100,27 +101,6 @@
             </div>
         </div>
     </body>
+    {% endif %}
     <script src="{% static 'js/mensajes.js' %}"></script>
-<!--     <script>
-    const fileInput = document.getElementById('id_imagen');
-    const preview = document.getElementById('preview');
-    const previewImg = document.getElementById('preview-img');
-
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    document.getElementById("take-photo-btn").addEventListener("click", function () {
-        alert("Funcionalidad de cámara aún no implementada."); // Aquí puedes integrar una API de cámara si deseas.
-    });
-</script> -->
-
 </html>

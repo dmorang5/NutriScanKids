@@ -59,10 +59,6 @@
             </div>
             
             <div class="auth-forms">
-                <!-- <div class="tabs">
-                    <div class="tab active" id="login-tab">Iniciar sesión</div>
-                    <div class="tab" id="register-tab">Registrarse</div>
-                </div> -->
                 <div class="tabs">
                     <a href="{% url 'login' %}" class="tab {% if request.resolver_match.url_name == 'login' %}active{% endif %}" id="login-tab">Iniciar sesión</a>
                     <a href="{% url 'register' %}" class="tab {% if request.resolver_match.url_name == 'register' %}active{% endif %}" id="register-tab">Registrarse</a>
@@ -136,6 +132,7 @@
         </div>
     </body>
         <script src="{% static 'js/mensajes.js' %}"></script>
+        <!--Mover entre tabs-->
         <script>
 
             document.getElementById('register-tab').addEventListener('click', function() {

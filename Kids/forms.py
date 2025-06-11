@@ -25,9 +25,6 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
     
-from django import forms
-from .models import AnalisisNutricional, HistorialMedico
-
 class AnalisisForm(forms.ModelForm):
     class Meta:
         model = AnalisisNutricional

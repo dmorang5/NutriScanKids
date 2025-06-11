@@ -1,10 +1,8 @@
 import datetime
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, UserRegistrationForm
 from .forms import AnalisisForm, HistorialForm, RecursoEducativoForm
-from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -20,7 +18,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.template.loader import render_to_string
 from django.contrib import messages
 
 # Vista basada en función para login o inicio de sesion
@@ -59,11 +56,12 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             # Guardar el usuario
             new_user.save()
-            messages.success(request, f'Registro exitososo')
-            return render(request, 'detector/base.html')
+            messages.success(request, f'Registro exitososo, inicie sesión con sus credenciales')
+            return redirect('dashboard')
+        else:
+            messages.warning(request, "Registro inválido")
     else:
-        user_form = UserRegistrationForm()  # si no es POST, crea un formulario vacío
-    messages.warning(request, "Regsitro inválido")
+        user_form = UserRegistrationForm()  
     return render(request, 'account/registro.html', {'user_form': user_form})
 
 

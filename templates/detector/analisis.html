@@ -95,15 +95,6 @@
                 {% endif %}
             </div>
             <div>
-            <!-- <h5>Datos Técnicos</h5>
-                <ul>
-                    <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }}</li>
-                    <li><strong>Distancia interpupilar:</strong> {{ analisis.distancia_interpupilar }}</li>
-                    <li><strong>Ratio ojos/rostro:</strong> {{ analisis.ratio_ojos_rostro }}</li>
-                    <li><strong>Ancho de mejillas:</strong> {{ analisis.ancho_mejillas }}</li>
-                    <li><strong>Ratio mejillas/ojos:</strong> {{ analisis.ratio_mejillas_ojos }}</li>
-                </ul>
-            </div> -->
             <div style="margin-top: 20px;">
                 <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
                 <button class="action-btn save-btn" id="guardar-btn" onclick="guardarEnHistorial({{ analisis.id }})"><i class="fas fa-save"></i> Guardar al historial</button>

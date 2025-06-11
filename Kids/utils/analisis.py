@@ -3,7 +3,6 @@ import numpy as np
 from scipy.spatial import distance as dist
 
 def analizar_nutricion_facial(imagen):
-    """Adapted from your Tkinter OpenCV code for Django"""
     try:
         # Cargar clasificadores
         detector_rostro = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
