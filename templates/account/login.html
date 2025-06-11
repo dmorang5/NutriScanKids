@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NutriScan Kids - Acceso</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Enlace de icons de fontawesome -->
+        <link rel="stylesheet" href="{% static 'css/account/login.css' %}">
+        <link rel="stylesheet" href="{% static 'css/mensajes.css' %}">
+    </head>
+
+    <!--Cuerpo-->
+    <body>
+        <!--Navbar-->
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>NutriScan Kids</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--Contenido del formulario de acceso-->
+        <div class="main-content">
+        <div class="auth-container">
+            <div class="auth-info">
+                <h2>Bienvenido a NutriScan Kids</h2>
+                <p>La plataforma digital para detectar y monitorear el estado nutricional de niños y niñas mediante análisis automático de imágenes y seguimiento personalizado.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="feature-text">Análisis automático del estado nutricional mediante fotos</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="feature-text">Alertas de riesgo nutricional personalizadas</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="feature-text">Historial y seguimiento de evaluaciones nutricionales</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="feature-text">Recursos educativos y recomendaciones personalizadas</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="auth-forms">
+                <!-- <div class="tabs">
+                    <div class="tab active" id="login-tab">Iniciar sesión</div>
+                    <div class="tab" id="register-tab">Registrarse</div>
+                </div> -->
+                <div class="tabs">
+                    <a href="{% url 'login' %}" class="tab {% if request.resolver_match.url_name == 'login' %}active{% endif %}" id="login-tab">Iniciar sesión</a>
+                    <a href="{% url 'register' %}" class="tab {% if request.resolver_match.url_name == 'register' %}active{% endif %}" id="register-tab">Registrarse</a>
+                </div>
+                <div id="success-message" class="success-message">
+                    <i class="fas fa-check-circle" style="color: var(--primary); font-size: 24px; margin-bottom: 10px;"></i>
+                    <p id="success-text"></p>
+                </div>
+                <!-- Mensajes -->
+                <div id="messages">
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li class="message {{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <!-- Login Form -->
+                <div class="form-container active" id="login-form">
+                    <form method="post" id="login">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="id_username">Usuario</label>
+                        <input type="text" name="username" id="id_username"
+                            class="form-control custom-input"
+                            placeholder="Ingrese su usuario"
+                            value="{{ form.username.value|default:'' }}">
+                        {% if form.username.errors %}
+                            <div class="validation-message">{{ form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password">Contraseña</label>
+                        <input type="password" name="password" id="id_password"
+                            class="form-control custom-input"
+                            placeholder="Ingrese su contraseña">
+                        {% if form.password.errors %}
+                            <div class="validation-message">{{ form.password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Recordarme</label>
+                        </div>
+                        
+                        <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                        
+                        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                    </form>
+                    <div class="social-login">
+                        <p>O inicie sesión con</p>
+                        <div class="social-buttons">
+                            <a href="#" class="social-btn">
+                                <i class="fab fa-google"></i>
+                            </a>
+                            <a href="#" class="social-btn">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-btn">
+                                <i class="fab fa-apple"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+        <script src="{% static 'js/mensajes.js' %}"></script>
+        <script>
+
+            document.getElementById('register-tab').addEventListener('click', function() {
+                window.location.href = "{% url 'register' %}";
+            });
+            document.getElementById('login-tab').addEventListener('click', function() {
+                window.location.href = "{% url 'login' %}";
+            });
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+
+            loginTab.addEventListener('click', () => {
+                loginForm.style.display = 'block';
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            });
+
+            registerTab.addEventListener('click', () => {
+                loginForm.style.display = 'none';
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+            });
+        </script>
+
+</html>

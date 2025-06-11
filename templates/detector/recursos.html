@@ -1,0 +1,57 @@
+{% extends 'detector/base.html' %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
+{% endblock %}
+{% block content %}
+<div id="education-section" class="education-section">
+    <h2 class="section-title">Recursos Educativos</h2>
+    
+    <div class="resource-grid">
+        <div class="resource-card">
+            <div class="resource-img">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="resource-content">
+                <h3 class="resource-title">Alimentación Saludable</h3>
+                <p class="resource-desc">Guía completa sobre alimentación equilibrada para niños de 2 a 5 años.</p>
+                <a href="#" class="resource-link">Ver recurso</a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-img">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="resource-content">
+                <h3 class="resource-title">Monitoreo del Crecimiento</h3>
+                <p class="resource-desc">Cómo interpretar las curvas de crecimiento y detectar alertas tempranas.</p>
+                <a href="#" class="resource-link">Ver recurso</a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-img">
+                <i class="fas fa-apple-alt"></i>
+            </div>
+            <div class="resource-content">
+                <h3 class="resource-title">Recetas Nutritivas</h3>
+                <p class="resource-desc">Colección de recetas fáciles y nutritivas para mejorar la alimentación infantil.</p>
+                <a href="#" class="resource-link">Ver recurso</a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-img">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="resource-content">
+                <h3 class="resource-title">Signos de Alerta</h3>
+                <p class="resource-desc">Cómo identificar signos de desnutrición y cuándo consultar a un profesional.</p>
+                <a href="#" class="resource-link">Ver recurso</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

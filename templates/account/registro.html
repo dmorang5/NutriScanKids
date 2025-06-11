@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NutriScan Kids - Acceso</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Enlace de icons de fontawesome -->
+        <link rel="stylesheet" href="{% static 'css/account/login.css' %}">
+    </head>
+
+    <!--Cuerpo-->
+    <body>
+        <!--Navbar-->
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>NutriScan Kids</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--Contenido del formulario de acceso-->
+        <div class="main-content">
+        <div class="auth-container">
+            <div class="auth-info">
+                <h2>Bienvenido a NutriScan Kids</h2>
+                <p>La plataforma digital para detectar y monitorear el estado nutricional de niños y niñas mediante análisis automático de imágenes y seguimiento personalizado.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="feature-text">Análisis automático del estado nutricional mediante fotos</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="feature-text">Alertas de riesgo nutricional personalizadas</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="feature-text">Historial y seguimiento de evaluaciones nutricionales</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="feature-text">Recursos educativos y recomendaciones personalizadas</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="auth-forms">
+                <div class="tabs">
+                    <a href="{% url 'login' %}" class="tab {% if request.resolver_match.url_name == 'login' %}active{% endif %}" id="login-tab">Iniciar sesión</a>
+                    <a href="{% url 'register' %}" class="tab {% if request.resolver_match.url_name == 'register' %}active{% endif %}" id="register-tab">Registrarse</a>
+                </div>
+
+                <div id="success-message" class="success-message">
+                    <i class="fas fa-check-circle" style="color: var(--primary); font-size: 24px; margin-bottom: 10px;"></i>
+                    <p id="success-text"></p>
+                </div>
+                <form method="post" id="register">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_first_name">Nombres</label>
+                        <input type="text" name="first_name" id="id_first_name"
+                            class="form-control custom-input"
+                            placeholder="Ingrese su nombre"
+                            value="{{ user_form.first_name.value|default:'' }}">
+                        {% if user_form.first_name.errors %}
+                            <div class="validation-message">{{ user_form.first_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_username">Usuario</label>
+                        <input type="text" name="username" id="id_username"
+                            class="form-control custom-input"
+                            placeholder="Ingrese su usuario"
+                            value="{{ user_form.username.value|default:'' }}">
+                        {% if user_form.username.errors %}
+                            <div class="validation-message">{{ user_form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_email">Correo electrónico</label>
+                        <input type="email" name="email" id="id_email"
+                            class="form-control custom-input"
+                            placeholder="ejemplo@correo.com"
+                            value="{{ user_form.email.value|default:'' }}">
+                        {% if user_form.email.errors %}
+                            <div class="validation-message">{{ user_form.email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password">Contraseña</label>
+                        <input type="password" name="password" id="id_password"
+                            class="form-control custom-input"
+                            placeholder="Ingrese su contraseña">
+                        {% if user_form.password.errors %}
+                            <div class="validation-message">{{ user_form.password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password2">Repetir contraseña</label>
+                        <input type="password" name="password2" id="id_password2"
+                            class="form-control custom-input"
+                            placeholder="Repita su contraseña">
+                        {% if user_form.password2.errors %}
+                            <div class="validation-message">{{ user_form.password2.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>    
+        </div>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+<!-- <h3>Detalles del Análisis</h3>
+<p><strong>Fecha:</strong> {{ analisis.fecha|date:"j \\d\\e F, Y H:i" }}</p>
+<p><strong>Estado:</strong> {{ analisis.get_estado_display }}</p>
+<p><strong>Signos Detectados:</strong> {{ analisis.signos_detectados }}</p>
+<p><strong>Recomendaciones:</strong> {{ analisis.recomendaciones }}</p>
+
+{% if analisis.imagen %}
+    <p><strong>Imagen:</strong><br>
+        <img src="{{ analisis.imagen.url }}" alt="Imagen del análisis" style="max-width:100%; height:auto;">
+    </p>
+{% endif %}
+ -->
+
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Detalles de Evaluación</h2>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" style="background-color: rgb(178, 243, 184); color: black;">Resultados</div>
+                <div class="tab" style="background-color: rgb(178, 243, 184); color:black;">Recomendaciones</div>
+            </div>
+            
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="result-content" style="background-color: white;">
+                        <div class="result-image">
+                            <!--<img src="./desnutricion4.jpg" alt="Imagen analizada historial">-->
+                            <img src="{{ analisis.imagen.url }}" alt="Imagen del análisis" style="max-width:100%; height:auto;">
+                        </div>
+                        
+                        <div class="result-data">
+                            <div class="result-status status-risk">
+                                {% if analisis.estado == 'alerta' %}
+                                    <span >Riesgo de desnutrición alta</span>
+                                {% elif analisis.estado == 'riesgo' %}
+                                    <span >Riesgo de desnutrición moderado</span>
+                                {% else %}
+                                    <span >Posible nutrición normal</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="result-details">
+                                <div class="detail-item" style="color: black;">
+                                    <span class="detail-label">Fecha:</span>
+                                    <span class="detail-value">{{ analisis.fecha|date:"j \\d\\e F, Y H:i" }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendations" style="color: black;">
+                                <h4>Observaciones:</h4>
+                                {% if analisis.estado == 'normal' %}
+                                <span>No hay signos detectados</span>
+                                {% else %}
+                                <span >
+                                    {% if analisis.signos_lista %}
+                                        <ul>
+                                            {% for signo in analisis.signos_lista %}
+                                                <li>{{ signo }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="tab-pane" style="color: black; background-color: white;"">
+                    <h3 style="color: black;">Plan de Seguimiento</h3>
+                    
+                    <div style="padding: 20px; border-radius: 8px; margin-top: 15px;">
+                        <h4 style="margin-bottom: 10px; color: black;" >Recomendaciones Personalizadas</h4>
+                        {% if analisis.estado == 'normal' %}
+                        <ul>
+                            <li>No hay recomendaciones</li>
+                        </ul>
+                        {% else %}
+                        <h4>Recomendaciones:</h4>
+                        <ul>
+                            {% if analisis.recomendaciones_lista %}
+                                <ul>
+                                    {% for recomendacion in analisis.recomendaciones_lista %}
+                                        <li>{{ recomendacion }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

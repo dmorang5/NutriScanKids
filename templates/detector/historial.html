@@ -1,0 +1,74 @@
+{% extends 'detector/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="history-section" class="history-section">
+    <h2 class="section-title">Historial de Evaluaciones</h2>
+    
+    <ul class="history-list">
+        {% for item in historial %}
+        <li class="history-item">
+            <div class="history-info">
+                <div class="history-date">{{ item.fecha|date:"j \\d\\e F, Y" }}</div>
+                <div class="history-status" style="background-color: {{ item.color }}; color: {{ item.texto_color }};">
+                    {{ item.riesgo }}
+                </div>
+            </div>
+            <button class="view-btn">Ver detalles</button>
+            <button class="view-btn" data-analisis-id="{{ item.id }}">Ver detalles</button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div id="modal-container">
+    {% include 'includes/modal_detalle.html' %}
+</div>
+
+
+<script>
+    const historyModal = document.getElementById('historyModal');
+
+    // Eventos para mostrar modales
+        viewBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                historyModal.style.display = 'block';
+            });
+        });
+        
+        // Eventos para cerrar modales
+        closeBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                historyModal.style.display = 'none';
+                multiChildModal.style.display = 'none';
+            });
+        });
+        
+        // Cerrar modales cuando se hace clic fuera de ellos
+        window.addEventListener('click', function(event) {
+            if (event.target === historyModal) {
+                historyModal.style.display = 'none';
+            }
+            if (event.target === multiChildModal) {
+                multiChildModal.style.display = 'none';
+            }
+        });
+        
+        // Manejo de pestañas en el modal
+        tabs.forEach(function(tab, index) {
+            tab.addEventListener('click', function() {
+                // Quitar clase active de todas las pestañas y paneles
+                tabs.forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                tabPanes.forEach(function(p) {
+                    p.classList.remove('active');
+                });
+                
+                // Añadir clase active a la pestaña y panel seleccionados
+                tab.classList.add('active');
+                tabPanes[index].classList.add('active');
+            });
+        });
+</script>
+{% endblock %}

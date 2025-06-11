@@ -1,0 +1,140 @@
+{% extends 'detector/base.html' %}
+{% load static %}
+
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
+{% endblock %}
+{% block content %}
+<h2 class="section-title">Análisis Nutricional</h2>
+
+<div class="upload-section">
+    <div class="upload-icon">
+        <i class="fas fa-camera"></i>
+    </div>
+    <p class="upload-text">Sube múltiples fotografías para evaluar el estado nutricional de varios niños</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="upload-btn"><i class="fas fa-upload"></i> Analizar Imágenes</button>
+    </form>
+</div>
+
+{% if mostrar_resultados and analisis %}
+<div class="result-section">
+    <div class="result-header">
+        <h3 class="result-title">Resultados del Análisis</h3>
+        <span class="result-date">{{ analisis.fecha }}</span>
+    </div>
+    <div class="result-content">
+        <div class="result-image">
+            {% if analisis.imagen %} 
+                <img src="{{ analisis.imagen.url }}" alt="Imagen analizada"  style="max-width: 400px;">                
+            {% else %}
+                <p>No se ha subido ninguna imagen.</p>
+            {% endif %}
+        </div>
+        <div class="result-data">
+            <div class="result-status status-risk">
+                {% if analisis.estado == 'alerta' %}
+                    <span >Riesgo de desnutrición alta</span>
+                {% elif analisis.estado == 'riesgo' %}
+                    <span >Riesgo de desnutrición moderado</span>
+                {% else %}
+                    <span >Posible nutrición normal</span>
+                {% endif %}
+            </div>
+            <div class="result-details">
+                <div class="detail-item">
+                    <span class="detail-label">Signos visuales detectados:</span>
+                    {% if analisis.estado == 'normal' %}
+                    <span>No hay signos detectados</span>
+                    {% else %}
+                    <span >
+                        {% if analisis.signos_lista %}
+                            <ul>
+                                {% for signo in analisis.signos_lista %}
+                                    <li>{{ signo }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="recommendations">
+                {% if analisis.estado == 'normal' %}
+                <h4>Recomendaciones:</h4>
+                <ul>
+                    <li>No hay recomendaciones</li>
+                </ul>
+                {% else %}
+                <h4>Recomendaciones:</h4>
+                <ul>
+                    {% if analisis.recomendaciones_lista %}
+                        <ul>
+                            {% for recomendacion in analisis.recomendaciones_lista %}
+                                <li>{{ recomendacion }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                </ul>
+                {% endif %}
+            </div>
+            <div>
+            <!-- <h5>Datos Técnicos</h5>
+                <ul>
+                    <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }}</li>
+                    <li><strong>Distancia interpupilar:</strong> {{ analisis.distancia_interpupilar }}</li>
+                    <li><strong>Ratio ojos/rostro:</strong> {{ analisis.ratio_ojos_rostro }}</li>
+                    <li><strong>Ancho de mejillas:</strong> {{ analisis.ancho_mejillas }}</li>
+                    <li><strong>Ratio mejillas/ojos:</strong> {{ analisis.ratio_mejillas_ojos }}</li>
+                </ul>
+            </div> -->
+            <div style="margin-top: 20px;">
+                <button class="action-btn print-btn" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+                <button class="action-btn save-btn" id="guardar-btn" onclick="guardarEnHistorial({{ analisis.id }})"><i class="fas fa-save"></i> Guardar al historial</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+function guardarEnHistorial(analisisId) {
+    const boton = document.getElementById('guardar-btn');
+    const textoOriginal = boton.innerHTML;
+    
+    // Cambiar botón a estado "cargando"
+    boton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+    boton.disabled = true;
+    
+    fetch('{% url "guardar_historial" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'analisis_id': analisisId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('¡Guardado en historial correctamente!');
+            boton.innerHTML = '<i class="fas fa-check"></i> Guardado';
+            boton.style.backgroundColor = '#28a745';
+        } else {
+            alert('Error: ' + data.message);
+            boton.innerHTML = textoOriginal;
+            boton.disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al guardar en historial');
+        boton.innerHTML = textoOriginal;
+        boton.disabled = false;
+    });
+}
+</script>
+{% endblock %}

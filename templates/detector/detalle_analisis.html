@@ -1,0 +1,120 @@
+{% extends 'detector/base.html' %}
+{% load static %}
+{% block css%}
+    <link rel="stylesheet" href="{% static 'css/detalle.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="result-section">
+    <div class="result-header">
+        <h3 class="result-title">Resultados del Análisis</h3>
+        <span class="result-date">{{ analisis.fecha }}</span>
+    </div>
+    <div class="result-content">
+        <div class="result-image">
+            {% if analisis.imagen %}
+                <img src="{{ analisis.imagen.url }}" alt="Imagen analizada"  style="max-width: 400px;">
+            {% else %}
+                <p>No se ha subido ninguna imagen.</p>
+            {% endif %}
+        </div>
+        <div class="result-data">
+            <div class="result-status status-risk">
+                {% if analisis.estado == 'alerta' %}
+                    <span >Riesgo de desnutrición alta</span>
+                {% elif analisis.estado == 'riesgo' %}
+                    <span >Riesgo de desnutrición moderado</span>
+                {% else %}
+                    <span >Posible nutrición normal</span>
+                {% endif %}
+            </div>
+            <div class="result-details">
+                <div class="detail-item">
+                    <span class="detail-label">Signos visuales detectados:</span>
+                    {% if analisis.estado == 'normal' %}
+                    <span>No hay signos detectados</span>
+                    {% else %}
+                    <span >{{ analisis.signos_detectados }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="recommendations">
+                {% if analisis.estado == 'normal' %}
+                <h4>Recomendaciones:</h4>
+                <ul>
+                    <li>No hay recomendaciones</li>
+                </ul>
+                {% else %}
+                <h4>Recomendaciones:</h4>
+                <ul>
+                    <li>Consultar con un pediatra o nutricionista infantil lo antes posible</li>
+                    <li>Aumentar la ingesta de proteínas de alta calidad en la dieta diaria</li>
+                    <li>Incluir alimentos ricos en hierro y zinc</li>
+                    <li>Realizar un seguimiento del peso semanalmente</li>
+                    <li>{{ analisis.recomendaciones }}</li>
+                </ul>
+                {% endif %}
+            </div>
+            <div>
+            <h5>Datos Técnicos</h5>
+                <ul>
+                    <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }}</li>
+                    <li><strong>Distancia interpupilar:</strong> {{ analisis.distancia_interpupilar }}</li>
+                    <li><strong>Ratio ojos/rostro:</strong> {{ analisis.ratio_ojos_rostro }}</li>
+                    <li><strong>Ancho de mejillas:</strong> {{ analisis.ancho_mejillas }}</li>
+                    <li><strong>Ratio mejillas/ojos:</strong> {{ analisis.ratio_mejillas_ojos }}</li>
+                </ul>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="action-btn print-btn"><i class="fas fa-print"></i> Imprimir</button>
+                <button class="action-btn save-btn"><i class="fas fa-save"></i> Guardar al historial</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 
+<div class="container mt-5">
+    <h2 class="mb-4">Resultado del Análisis Nutricional</h2>
+
+    <div class="card p-3 mb-4">
+        <h5>Imagen Analizada</h5>
+        {% if analisis.imagen %}
+            <img src="{{ analisis.imagen.url }}" alt="Imagen analizada" class="img-fluid" style="max-width: 400px;">
+        {% else %}
+            <p>No se ha subido ninguna imagen.</p>
+        {% endif %}
+    </div>
+
+    <div class="card p-3 mb-4">
+        <h5>Diagnóstico</h5>
+        <p><strong>Estado:</strong> 
+            {% if analisis.estado == 'alerta' %}
+                <span class="text-danger">Alerta</span>
+            {% elif analisis.estado == 'riesgo' %}
+                <span class="text-warning">Riesgo</span>
+            {% else %}
+                <span class="text-success">Normal</span>
+            {% endif %}
+        </p>
+        <p><strong>Signos Detectados:</strong> {{ analisis.signos_detectados }}</p>
+        <p><strong>Recomendaciones:</strong> {{ analisis.recomendaciones }}</p>
+    </div>
+
+    <div class="card p-3">
+        <h5>Datos Técnicos</h5>
+        <ul>
+            <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }}</li>
+            <li><strong>Distancia interpupilar:</strong> {{ analisis.distancia_interpupilar }}</li>
+            <li><strong>Ratio ojos/rostro:</strong> {{ analisis.ratio_ojos_rostro }}</li>
+            <li><strong>Ancho de mejillas:</strong> {{ analisis.ancho_mejillas }}</li>
+            <li><strong>Ratio mejillas/ojos:</strong> {{ analisis.ratio_mejillas_ojos }}</li>
+        </ul>
+    </div>
+</div>
+
+
+
+ -->

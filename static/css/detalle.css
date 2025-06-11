@@ -1,0 +1,134 @@
+    .result-section {
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.result-title {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+.result-date {
+    color: var(--text-light);
+}
+
+.result-content {
+    display: flex;
+    gap: 20px;
+}
+
+.result-image {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.result-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.result-data {
+    flex: 2;
+}
+
+.result-status {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.status-normal {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status-risk {
+    background-color: #FFC107;
+    color: #333;
+}
+
+.status-alert {
+    background-color: #F44336;
+    color: white;
+}
+
+.result-details {
+    margin-bottom: 15px;
+}
+
+.detail-item {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.detail-label {
+    font-weight: 500;
+    flex: 1;
+}
+
+.detail-value {
+    flex: 2;
+}
+
+.recommendations {
+    background-color: var(--secondary-light);
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 15px;
+}
+
+.recommendations h4 {
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.recommendations ul {
+    padding-left: 20px;
+}
+
+.recommendations li {
+    margin-bottom: 5px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.print-btn {
+    background-color: var(--medium-gray);
+    color: var(--text-dark);
+}
+
+.print-btn:hover {
+    background-color: var(--text-light);
+    color: var(--white);
+}
+
+.save-btn {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.save-btn:hover {
+    background-color: var(--primary-dark);
+}
