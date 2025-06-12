@@ -67,6 +67,13 @@
                 </div>
             </div>
             <div class="recommendations">
+                <!-- <h4>Datos técnicos:</h4>
+                <li><strong>Ancho del rostro:</strong> {{ analisis.ancho_rostro }} px</li>
+                <li><strong>Distancia interpupilar:</strong> {{ analisis.distancia_interpupilar }} px</li>
+                <li><strong>Ratio ojos/rostro:</strong> {{ analisis.ratio_ojos_rostro }}</li>
+                <li><strong>Ancho de mejillas:</strong> {{ analisis.ancho_mejillas }} px</li>
+                <li><strong>Ratio mejillas/ojos:</strong> {{ analisis.ratio_mejillas_ojos }}</li>
+                <li><strong>Estado detectado:</strong> {{ analisis.estado|title }}</li> -->
                 {% if analisis.estado == 'normal' %}
                 <h4>Recomendaciones:</h4>
                 <ul>
